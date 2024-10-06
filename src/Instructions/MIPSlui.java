@@ -4,15 +4,14 @@ import utils.RegisterUtil;
 
 public class MIPSlui implements MIPSInstruction {
 
-    private final int OPCODE = 5;
+    private final int OPCODE = 15;
 
     private int rt;
-    private int offset;
+    private int immediate;
 
-    public MIPSlui(String rs, String rt, String immediate) {
-        this.rs = RegisterUtil.toDecimal(rs);
+    public MIPSlui(String rt, String immediate) {
         this.rt = RegisterUtil.toDecimal(rt);
-        this.offset = Integer.decode(immediate);
+        this.immediate = Integer.decode(immediate);
     }
 
     @Override
@@ -20,9 +19,8 @@ public class MIPSlui implements MIPSInstruction {
 
         int inst = 0;
 
-        inst |= (offset & 0xFFFF);
+        inst |= (immediate & 0xFFFF);
         inst |= (rt & 0x1F) << 16;
-        inst |= (rs & 0x1F) << 21;
         inst |= (OPCODE & 0x3F) << 26;
 
         return String.format("%08x", inst);
