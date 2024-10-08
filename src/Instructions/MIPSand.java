@@ -7,18 +7,12 @@ public class MIPSand implements MIPSInstruction {
     private final int OPCODE = 0;
     private final int FNCODE = 36;
 
-    private int rd;
-    private int rs;
-    private int rt;
-
-    public MIPSand(String rd, String rs, String rt) {
-        this.rd = RegisterUtil.toDecimal(rd);
-        this.rs = RegisterUtil.toDecimal(rs);
-        this.rt = RegisterUtil.toDecimal(rt);
-    }
-
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
+
+        int rd = RegisterUtil.toDecimal(instruction[1]);
+        int rs = RegisterUtil.toDecimal(instruction[2]);
+        int rt = RegisterUtil.toDecimal(instruction[3]);
 
         int inst = 0;
 

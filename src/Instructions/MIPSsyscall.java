@@ -1,14 +1,12 @@
 package Instructions;
 
-import utils.RegisterUtil;
-
 public class MIPSsyscall implements MIPSInstruction {
 
     private final int OPCODE = 0;
     private final int FNCODE = 12;
 
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
 
         int inst = 0;
 

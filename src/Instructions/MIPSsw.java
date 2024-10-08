@@ -1,25 +1,26 @@
 package Instructions;
 
-import io.IOHandler;
 import utils.RegisterUtil;
 
 public class MIPSsw implements MIPSInstruction {
 
     private final int OPCODE = 43;
 
-    private int base;
-    private int rt;
-    private int offset;
-
-    public MIPSsw(String rt, String offset) {
-        String[] offsetBase = IOHandler.splitOffsetBase(offset);
-        this.rt = RegisterUtil.toDecimal(rt);
-        this.offset = Integer.decode(offsetBase[0]);
-        this.base = RegisterUtil.toDecimal(offsetBase[1]);
-    }
-
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
+
+        boolean offsetPresent = instruction.length == 4;
+
+        int rt = RegisterUtil.toDecimal(instruction[1]);
+
+        int offset = 0, base;
+
+        if (offsetPresent) {
+            offset = Integer.decode(instruction[2]);
+            base = RegisterUtil.toDecimal(instruction[3]);
+        } else {
+            base = RegisterUtil.toDecimal(instruction[2]);
+        }
 
         int inst = 0;
 

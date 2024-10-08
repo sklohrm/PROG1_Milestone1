@@ -1,5 +1,5 @@
 package Instructions;
 
 public interface MIPSInstruction {
-    String toHex();
+    String toHex(String[] instruction);
 }

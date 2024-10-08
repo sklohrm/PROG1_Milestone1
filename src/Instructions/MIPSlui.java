@@ -6,16 +6,11 @@ public class MIPSlui implements MIPSInstruction {
 
     private final int OPCODE = 15;
 
-    private int rt;
-    private int immediate;
-
-    public MIPSlui(String rt, String immediate) {
-        this.rt = RegisterUtil.toDecimal(rt);
-        this.immediate = Integer.decode(immediate);
-    }
-
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
+
+        int rt = RegisterUtil.toDecimal(instruction[1]);
+        int immediate = Integer.decode(instruction[2]);
 
         int inst = 0;
 

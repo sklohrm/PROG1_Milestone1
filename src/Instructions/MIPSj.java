@@ -1,19 +1,13 @@
 package Instructions;
 
-import utils.RegisterUtil;
-
 public class MIPSj implements MIPSInstruction {
 
     private final int OPCODE = 2;
 
-    private int instr_index;
-
-    public MIPSj(String instr_index) {
-        this.instr_index = Integer.decode(instr_index);
-    }
-
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
+
+        int instr_index = Integer.decode(instruction[1]);
 
         int inst = 0;
 

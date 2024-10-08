@@ -6,18 +6,12 @@ public class MIPSbne implements MIPSInstruction {
 
     private final int OPCODE = 5;
 
-    private int rs;
-    private int rt;
-    private int offset;
-
-    public MIPSbne(String rs, String rt, String offset) {
-        this.rs = RegisterUtil.toDecimal(rs);
-        this.rt = RegisterUtil.toDecimal(rt);
-        this.offset = Integer.decode(offset);
-    }
-
     @Override
-    public String toHex() {
+    public String toHex(String[] instruction) {
+
+        int rs = RegisterUtil.toDecimal(instruction[1]);
+        int rt = RegisterUtil.toDecimal(instruction[2]);
+        int offset = Integer.decode(instruction[3]);
 
         int inst = 0;
 
