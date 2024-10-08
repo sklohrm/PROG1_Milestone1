@@ -27,6 +27,7 @@ public class Main {
             String output = MIPSInstructionManager.getInstruction(instruction[0]).toHex(instruction);
 
             if (!answer.equals(output)) {
+                errors++;
                 System.out.print("Error: ");
             }
 
