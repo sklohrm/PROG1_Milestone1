@@ -9,7 +9,7 @@ public class MIPSlw implements MIPSInstruction {
     @Override
     public String toHex(String[] instruction) {
 
-        boolean offsetPresent = instruction.length == 4;
+        boolean offsetPresent = (instruction.length == 4);
 
         int rt = RegisterUtil.toDecimal(instruction[1]);
 

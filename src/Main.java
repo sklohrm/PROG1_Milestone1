@@ -7,9 +7,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Comment these two line and uncomment testSingleInput to run test file.
-        String[] input = IOHandler.cleanInput(args[0]);
-        System.out.println(MIPSInstructionManager.getInstruction(input[0]).toHex(input));
+        //Comment this line and uncomment testSingleInput to run test file.
+        MainController.run(args[0]);
 
 //        testSingleInput("test_instructions.txt");
 
