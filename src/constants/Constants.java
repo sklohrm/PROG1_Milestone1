@@ -11,6 +11,10 @@ public class Constants {
             "$t8", "$t9", "$k0", "$k1", "$gp", "$sp", "$fp", "$ra"
     };
 
+    public static String[] pseudoinstructions = {
+            "li", "la", "blt"
+    };
+
 //            Masking
 //            6 bits: 0x3F (or 63 in decimal)
 //            5 bits: 0x1F (or 31 in decimal)

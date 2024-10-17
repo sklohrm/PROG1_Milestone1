@@ -25,4 +25,24 @@ public class MIPSInstructionManager {
     public static MIPSInstruction getInstruction(String operation) {
         return MIPS_INSTRUCTION_MAP.get(operation);
     }
+
+    public static MIPSInstruction create(String[] instruction) {
+        return switch (instruction[0].toLowerCase()) {
+            case "add" -> new MIPSadd();
+            case "addiu" -> new MIPSaddiu();
+            case "and" -> new MIPSand();
+            case "andi" -> new MIPSandi();
+            case "beq" -> new MIPSbeq();
+            case "bne" -> new MIPSbne();
+            case "j" -> new MIPSj();
+            case "lui" -> new MIPSlui();
+            case "lw" -> new MIPSlw();
+            case "or" -> new MIPSor();
+            case "ori" -> new MIPSori();
+            case "slt" -> new MIPSslt();
+            case "sub" -> new MIPSsub();
+            case "sw" -> new MIPSsw();
+            default -> throw new IllegalArgumentException("Unsupported operation: " + instruction[0]);
+        };
+    }
 }
