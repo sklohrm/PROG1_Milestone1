@@ -1,4 +1,6 @@
 import io.IOHandler;
+import managers.MIPSInstructionManager;
+import parsing.MIPSParser;
 
 import java.util.List;
 
@@ -13,17 +15,28 @@ public class MainController {
     }
 
     private static void convertInstruction(String arg) {
-        String[] input = IOHandler.cleanInstructionInput(arg);
+        String[] input = MIPSParser.parseInstruction(arg);
         System.out.println(MIPSInstructionManager.getInstruction(input[0]).toHex(input));
     }
 
     private static void convertFile(String arg) {
+        MIPSParser parser = new MIPSParser();
+
         List<String> input = IOHandler.readFromFile(arg);
-        List<String>[] splitInput = IOHandler.splitBySection(input);
-        List<String[]> cleanedInstructions = IOHandler.cleanInstructionInputs(splitInput[0]);
-        List<String[]> cleanedDeclarations = IOHandler.cleanDeclarationInputs(splitInput[1]);
-//        IOHandler.writeTextFile(cleanedInstructions);
-//        IOHandler.writeTextFile(cleanedDeclarations);
+
+        parser.parseASMFile(input);
+
+//        System.out.println("Data");
+//        for (String line : parser.data) {
+//            System.out.println(line);
+//        }
+//        System.out.println("Text");
+//        for (String line : parser.text) {
+//            System.out.println(line);
+//        }
+
+        IOHandler.writeDataFile(parser.data);
+        IOHandler.writeTextFile(parser.text);
     }
 
 }

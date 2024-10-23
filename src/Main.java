@@ -1,4 +1,5 @@
 import io.IOHandler;
+import managers.MIPSInstructionManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Comment this line and uncomment testSingleInput to run test file.
+
         MainController.run(args[0]);
 
 //        testSingleInput("test_instructions.txt");
