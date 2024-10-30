@@ -1,18 +1,14 @@
 package Declarations;
 
-public class MIPSasciiz extends MIPSDeclaration{
-
-    public MIPSasciiz(String[] declaration) {
-        //TODO Check that declaration array is correct length
-        this.label = declaration[0];
-        this.type = declaration[1];
-        this.value = declaration[2];
-    }
+public class MIPSasciiz implements MIPSDeclaration{
 
     @Override
-    public String[] toHex() {
-        String[] output = new String[value.length()];
-        return output;
+    public String toHex(String[] declaration) {
+        StringBuilder output = new StringBuilder();
+        int count = 3;
+        for (int i = 0; i < declaration[2].length(); ++i) {
+            output.append(Integer.toHexString((int) declaration[2].charAt(i)));
+        }
+        return "";
     }
-
 }

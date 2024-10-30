@@ -5,9 +5,9 @@ import java.util.Set;
 
 public class Constants {
 
-    public static final int DATA_SEG_START = 0x00400000;
+    public static final int TEXT_SEG_START = 0x00400000;
 
-    public static final int TEXT_SEG_START = 0x10010000;
+    public static final int DATA_SEG_START = 0x10010000;
 
     public static final String[] REGISTERS = {
             "$zero",
@@ -25,7 +25,7 @@ public class Constants {
     };
 
     public static final String[] PSEUDOINSTRUCTIONS = {
-        "li", "la", "blt"
+        "li", "la", "blt", "move"
     };
 
     public static final String[] VARIABLE_TYPES = {

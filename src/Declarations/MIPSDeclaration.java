@@ -1,8 +1,5 @@
 package Declarations;
 
-public abstract class MIPSDeclaration {
-
-    public String label, type, value;
-
-    abstract String[] toHex();
+public interface MIPSDeclaration {
+    String toHex(String[] declaration);
 }
