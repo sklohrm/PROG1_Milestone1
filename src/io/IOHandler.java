@@ -2,9 +2,7 @@ package io;
 
 import parsing.MIPSParser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +22,30 @@ public class IOHandler {
         return lines;
     }
 
-    public static void writeTextFile(List<String> instructions) {}
+    public static void writeTextFile(List<String> instructions, String fileName) {
+        fileName = fileName + ".text";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (String line : instructions) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    public static void writeDataFile(List<String> declarations) {}
+    }
+
+    public static void writeDataFile(List<String> declarations, String fileName) {
+        fileName = fileName + ".data";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (String line : declarations) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static List<String[]> readTestData(String inputFile) {
 

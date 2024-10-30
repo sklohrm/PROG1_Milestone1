@@ -26,17 +26,8 @@ public class MainController {
 
         parser.parseASMFile(input);
 
-//        System.out.println("Data");
-//        for (String line : parser.data) {
-//            System.out.println(line);
-//        }
-//        System.out.println("Text");
-//        for (String line : parser.text) {
-//            System.out.println(line);
-//        }
-
-        IOHandler.writeDataFile(parser.data);
-        IOHandler.writeTextFile(parser.text);
+        IOHandler.writeDataFile(parser.data, arg.replace(".asm", ""));
+        IOHandler.writeTextFile(parser.text, arg.replace(".asm", ""));
     }
 
 }

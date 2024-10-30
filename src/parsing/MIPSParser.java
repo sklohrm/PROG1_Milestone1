@@ -2,6 +2,7 @@ package parsing;
 
 import Declarations.MIPSDeclaration;
 import constants.Constants;
+import managers.MIPSInstructionManager;
 import utils.DeclarationUtil;
 import utils.InstructionUtil;
 import utils.PseudoinstructionUtil;
@@ -46,12 +47,6 @@ public class MIPSParser {
 //
 //        System.out.println();
 //
-//        for (String[] line : tokenizedText) {
-//            for (String token : line) {
-//                System.out.print(token + " ");
-//            }
-//            System.out.println();
-//        }
 
         //Create address variable
         int memAddr = 0;
@@ -69,26 +64,52 @@ public class MIPSParser {
         //Loop to save and remove labels
 
 
+
+        //Loop to save and remove labels
+        for (int i = 0; i < tokenizedText.size(); ++i) {
+            if (determineLineType(tokenizedText.get(i)[0]) == Constants.LineType.LABEL) {
+                labels.put(tokenizedText.get(i)[0].substring(0, tokenizedText.get(i)[0].length() - 1), Integer.toHexString(Constants.TEXT_SEG_START + memAddr));
+                tokenizedText.remove(i--);
+            }
+            else memAddr += 4;
+        }
         //If label add label and address + 1 as key, value to labels
         //Delete label
 
 
+        System.out.println(labels);
         //Second loop to replace label references with value from labels map
+        memAddr = 0;
+        for (String[] line : tokenizedText) {
+            System.out.println(Arrays.toString(line));
+            for (int i = 0; i < line.length; ++i) {
+                if (labels.containsKey(line[i])) {
+                    if (line[0].equals("beq")) {
+                        int value = Integer.decode(labels.get(line[i]));
+                        value = (memAddr + Constants.TEXT_SEG_START) - value;
+                        line[3] = String.valueOf(value);
+                    } else {
+                        line[i] = "0x" + labels.get(line[i]);
+                    }
 
-        //Third loop to call toHex on each line and add to text arrayList
+                }
+            }
+            memAddr += 4;
+            System.out.println(Arrays.toString(line));
+        }
+//        System.out.println(labels);
+        text.clear();
+        for (String[] line : tokenizedText) {
+//            System.out.println(Arrays.toString(line));
+            text.add(MIPSInstructionManager.getInstruction(line[0]).toHex(line));
+        }
+
 
 //        for (String line : data) {
 //            System.out.println(line);
 //        }
-//
-        for (String[] line : tokenizedText) {
-            for (String token : line) {
-                System.out.print(token + " ");
-            }
-            System.out.println();
-        }
 
-        textToHex(tokenizedText);
+
     }
 
 
@@ -176,14 +197,26 @@ public class MIPSParser {
         List<String[]> output = new ArrayList<>();
         switch (input[0]) {
             case "la":
-                output.add(new String[]{"", "", ""});
+                int imm;
+                if (labels.containsKey(input[2])) {
+                    imm = Integer.decode("0x" + labels.get(input[2]));
+                } else {
+                    imm = Integer.parseInt(input[2]);
+                }
+                if (imm >= -32768 && imm <= 32767) {
+                    output.add(new String[]{"addiu", input[1], "$zero", String.valueOf(imm)});
+                } else {
+                    output.add(new String[]{"lui", "$at", String.valueOf((imm >>> 16) & 0xFFFF)});
+                    output.add(new String[]{"ori", input[1], "$at",  String.valueOf(imm & 0xFFFF)});
+                }
             break;
             case "li":
-                if (Integer.decode(input[2]) >= -32768 && Integer.decode(input[2]) <= 32767) {
-                    output.add(new String[]{"", "", ""});
+                imm = Integer.parseInt(input[2]);
+                if (imm >= -32768 && Integer.decode(input[2]) <= 32767) {
+                    output.add(new String[]{"addiu", input[1], "$zero", String.valueOf(imm)});
                 } else {
-                    output.add(new String[]{"lui", "$at", input[2]});
-                    output.add(new String[]{"ori", input[2]});
+                    output.add(new String[]{"lui", "$at", String.valueOf((imm >>> 16) & 0xFFFF)});
+                    output.add(new String[]{"ori", input[1], "$at", String.valueOf(imm & 0xFFFF)});
                 }
             break;
             case "blt":
