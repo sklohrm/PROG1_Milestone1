@@ -41,13 +41,6 @@ public class MIPSParser {
 
         tokenizedText = parseText();
 
-//        for (String line : text) {
-//            System.out.println(line);
-//        }
-//
-//        System.out.println();
-//
-
         //Create address variable
         int memAddr = 0;
         //Loop and convert pseudoinstructions
@@ -62,10 +55,6 @@ public class MIPSParser {
         }
 
         //Loop to save and remove labels
-
-
-
-        //Loop to save and remove labels
         for (int i = 0; i < tokenizedText.size(); ++i) {
             if (determineLineType(tokenizedText.get(i)[0]) == Constants.LineType.LABEL) {
                 labels.put(tokenizedText.get(i)[0].substring(0, tokenizedText.get(i)[0].length() - 1), Integer.toHexString(Constants.TEXT_SEG_START + memAddr));
@@ -73,11 +62,7 @@ public class MIPSParser {
             }
             else memAddr += 4;
         }
-        //If label add label and address + 1 as key, value to labels
-        //Delete label
 
-
-        System.out.println(labels);
         //Second loop to replace label references with value from labels map
         memAddr = 0;
         for (String[] line : tokenizedText) {
@@ -85,9 +70,13 @@ public class MIPSParser {
             for (int i = 0; i < line.length; ++i) {
                 if (labels.containsKey(line[i])) {
                     if (line[0].equals("beq")) {
-                        int value = Integer.decode(labels.get(line[i]));
-                        value = (memAddr + Constants.TEXT_SEG_START) - value;
-                        line[3] = String.valueOf(value);
+                        int target = Integer.decode("0x" + labels.get(line[i]));
+                        int next = memAddr + 4 + Constants.TEXT_SEG_START;
+                        int destination = (target - next) / 4;
+                        line[3] = String.valueOf(destination);
+                    } else if (line[0].equals("j")) {
+                        int target = Integer.decode("0x" + labels.get(line[i])) >> 2;
+                        line[1] = String.valueOf(target);
                     } else {
                         line[i] = "0x" + labels.get(line[i]);
                     }
@@ -97,17 +86,15 @@ public class MIPSParser {
             memAddr += 4;
             System.out.println(Arrays.toString(line));
         }
-//        System.out.println(labels);
+
         text.clear();
         for (String[] line : tokenizedText) {
-//            System.out.println(Arrays.toString(line));
             text.add(MIPSInstructionManager.getInstruction(line[0]).toHex(line));
         }
 
-
-//        for (String line : data) {
-//            System.out.println(line);
-//        }
+        for (String key : labels.keySet()) {
+            System.out.println(key + ": " + labels.get(key));
+        }
 
 
     }
