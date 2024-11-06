@@ -66,7 +66,6 @@ public class MIPSParser {
         //Second loop to replace label references with value from labels map
         memAddr = 0;
         for (String[] line : tokenizedText) {
-            System.out.println(Arrays.toString(line));
             for (int i = 0; i < line.length; ++i) {
                 if (labels.containsKey(line[i])) {
                     if (line[0].equals("beq")) {
@@ -84,18 +83,12 @@ public class MIPSParser {
                 }
             }
             memAddr += 4;
-            System.out.println(Arrays.toString(line));
         }
 
         text.clear();
         for (String[] line : tokenizedText) {
             text.add(MIPSInstructionManager.getInstruction(line[0]).toHex(line));
         }
-
-        for (String key : labels.keySet()) {
-            System.out.println(key + ": " + labels.get(key));
-        }
-
 
     }
 

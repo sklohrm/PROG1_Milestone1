@@ -9,8 +9,10 @@ public class MainController {
     public static void run(String arg) {
         if (arg.contains(".asm")) {
             convertFile(arg);
-        } else {
+        } else  try {
             convertInstruction(arg);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to convert instruction: " + arg);
         }
     }
 
