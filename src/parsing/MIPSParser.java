@@ -121,7 +121,20 @@ public class MIPSParser {
             //Loop through prompt starting after quotation and ending before it
             for (int i = 0; i < prompt.length(); ++i) {
                 //Add the hex of the letter to the front of the String to reverse it
-                eightChars = Integer.toHexString((int) prompt.charAt(i)) + eightChars;
+
+
+                if(prompt.charAt(i) == '\\' && i+1 < prompt.length()){
+
+                    if (Constants.BACKSLASH_CONVENTIONS.containsKey(String.valueOf(prompt.charAt(i+1)))) {
+                        eightChars = Constants.BACKSLASH_CONVENTIONS.get(String.valueOf(prompt.charAt(i+1))) + eightChars;
+                        i++;
+                    }
+
+                    else eightChars = Integer.toHexString((int) prompt.charAt(i)) + eightChars;
+                }
+
+                else eightChars = Integer.toHexString((int) prompt.charAt(i)) + eightChars;
+
 
                 //If we got 4 char string in reverse order
                 if (++count == 4) {

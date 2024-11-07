@@ -38,7 +38,6 @@ public class IOHandler {
 
     public static void writeDataFile(List<String> declarations, String fileName) {
         fileName = fileName + ".data";
-        System.out.println(fileName);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (String line : declarations) {
                 writer.write(line);
